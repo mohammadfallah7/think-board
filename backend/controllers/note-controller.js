@@ -1,21 +1,15 @@
-import express from "express";
-
-const router = express.Router();
-
-router.get("/", (req, res) => {
+export async function getAllNotes(req, res) {
   res.status(200).json({ message: "You got the notes successfully!" });
-});
+}
 
-router.post("/", (req, res) => {
+export async function createNote(req, res) {
   res.status(201).json({ message: "You created a note successfully!" });
-});
+}
 
-router.put("/:id", (req, res) => {
+export async function UpdateNote(req, res) {
   res.status(200).json({ message: "You updated a note successfully!" });
-});
+}
 
-router.delete("/:id", (req, res) => {
+export async function DeleteNote(req, res) {
   res.status(200).json({ message: "You deleted a note successfully!" });
-});
-
-export default router;
+}
