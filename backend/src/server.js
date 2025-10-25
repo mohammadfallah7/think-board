@@ -8,6 +8,8 @@ const app = express();
 dotenv.config();
 connectDB();
 
+app.use(express.json());
+
 app.use("/api/notes", noteRouter);
 
 const port = process.env.PORT || "5001";
