@@ -10,6 +10,11 @@ connectDB();
 
 app.use(express.json());
 
+app.use((req, res, next) => {
+  console.log(`Request method:${req.method} & Request url:${req.url}`);
+  next();
+});
+
 app.use("/api/notes", noteRouter);
 
 const port = process.env.PORT || "5001";
