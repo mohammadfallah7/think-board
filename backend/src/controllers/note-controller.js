@@ -35,8 +35,8 @@ export async function getNote(req, res) {
 export async function createNote(req, res) {
   const { title, content } = req.body;
 
-  if (!title) {
-    return res.status(400).json({ message: "Please provide a title" });
+  if (!title || !content) {
+    return res.status(400).json({ message: "All fields are required" });
   }
 
   try {
