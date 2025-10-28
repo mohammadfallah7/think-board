@@ -3,7 +3,7 @@ import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router";
 import { axiosInstance } from "../lib/utils";
 
-const useDeleteNote = () => {
+const useDeleteNote = (redirect, onDeleteNote) => {
   const navigate = useNavigate();
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -12,7 +12,11 @@ const useDeleteNote = () => {
     try {
       await axiosInstance.delete(`/notes/${id}`);
       toast.success("Note deleted successfully");
-      navigate("/");
+      if (redirect) {
+        navigate("/");
+      } else {
+        onDeleteNote(id);
+      }
     } catch (error) {
       switch (error.response.status) {
         case 404:

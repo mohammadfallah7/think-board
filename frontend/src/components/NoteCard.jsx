@@ -1,36 +1,16 @@
 import { LucideLoader2, LucidePenSquare, LucideTrash2 } from "lucide-react";
-import { useState } from "react";
-import { toast } from "react-hot-toast";
 import { Link } from "react-router";
-import { axiosInstance, formatDate } from "../lib/utils";
+import useDeleteNote from "../hooks/use-delete-note";
+import { formatDate } from "../lib/utils";
 
 const NoteCard = ({ note, onDeleteNote }) => {
-  const [loading, setLoading] = useState(false);
+  const { isDeleting: loading, mutate: deleteNote } = useDeleteNote(
+    false,
+    onDeleteNote
+  );
 
-  const handleDelete = async (id) => {
-    setLoading(true);
-    try {
-      await axiosInstance.delete(`/notes/${id}`);
-      toast.success("Note deleted successfully");
-      onDeleteNote(id);
-    } catch (error) {
-      switch (error.response.status) {
-        case 404:
-          toast.error(error.response.data.message);
-          break;
-        case 429:
-          toast.error("Rate limit exceeded! Please try again later.");
-          break;
-        case 500:
-          toast.error(error.response.data.message);
-          break;
-        default:
-          toast.error("Failed to delete note!");
-          break;
-      }
-    } finally {
-      setLoading(false);
-    }
+  const handleDelete = (id) => {
+    deleteNote(id);
   };
 
   return (

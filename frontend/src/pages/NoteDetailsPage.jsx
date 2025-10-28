@@ -10,7 +10,7 @@ const NoteDetailsPage = () => {
 
   const { note, setNote, loading } = useNote(id);
   const { isUpdating, mutate: updateNote } = useUpdateNote();
-  const { isDeleting, mutate: deleteNote } = useDeleteNote();
+  const { isDeleting, mutate: deleteNote } = useDeleteNote(true);
 
   const handleSubmit = (event) => {
     event.preventDefault();
