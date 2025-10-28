@@ -79,7 +79,7 @@ const NoteDetailsPage = () => {
                   type="submit"
                   className="btn btn-primary"
                 >
-                  Update
+                  Save changes
                   {isUpdating && (
                     <LucideLoader2 className="size-4 animate-spin" />
                   )}
