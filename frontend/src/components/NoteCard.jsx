@@ -1,8 +1,38 @@
-import { LucidePenSquare, LucideTrash2 } from "lucide-react";
+import { LucideLoader2, LucidePenSquare, LucideTrash2 } from "lucide-react";
+import { useState } from "react";
+import { toast } from "react-hot-toast";
 import { Link } from "react-router";
-import { formatDate } from "../lib/utils";
+import { axiosInstance, formatDate } from "../lib/utils";
 
-const NoteCard = ({ note }) => {
+const NoteCard = ({ note, onDeleteNote }) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleDelete = async (id) => {
+    setLoading(true);
+    try {
+      await axiosInstance.delete(`/notes/${id}`);
+      toast.success("Note deleted successfully");
+      onDeleteNote(id);
+    } catch (error) {
+      switch (error.response.status) {
+        case 404:
+          toast.error(error.response.data.message);
+          break;
+        case 429:
+          toast.error("Rate limit exceeded! Please try again later.");
+          break;
+        case 500:
+          toast.error(error.response.data.message);
+          break;
+        default:
+          toast.error("Failed to delete note!");
+          break;
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <li className="card bg-base-100 shadow-sm hover:shadow-lg transition-all duration-200 border-t-4 border-primary">
       <div className="card-body">
@@ -18,8 +48,16 @@ const NoteCard = ({ note }) => {
             <Link to={`/note/${note._id}`}>
               <LucidePenSquare className="size-4" />
             </Link>
-            <button className="btn btn-ghost btn-xs text-error">
-              <LucideTrash2 className="size-4" />
+            <button
+              disabled={loading}
+              onClick={() => handleDelete(note._id)}
+              className="btn btn-ghost btn-xs text-error"
+            >
+              {loading ? (
+                <LucideLoader2 className="size-4 animate-spin" />
+              ) : (
+                <LucideTrash2 className="size-4" />
+              )}
             </button>
           </div>
         </div>

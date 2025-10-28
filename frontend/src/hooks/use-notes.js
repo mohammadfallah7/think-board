@@ -29,7 +29,7 @@ const useNotes = () => {
     fetchNotes();
   }, []);
 
-  return { notes, loading, rateLimited };
+  return { notes, setNotes, loading, rateLimited };
 };
 
 export default useNotes;

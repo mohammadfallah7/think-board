@@ -5,7 +5,7 @@ import NoteCard from "./NoteCard";
 import RateLimitedAlert from "./RateLimitedAlert";
 
 const NotesGrid = () => {
-  const { notes, loading, rateLimited } = useNotes();
+  const { notes, setNotes, loading, rateLimited } = useNotes();
 
   if (loading) return <Loading message="Loading notes..." />;
 
@@ -20,7 +20,13 @@ const NotesGrid = () => {
     <Container>
       <ul className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 py-6">
         {notes.map((note) => (
-          <NoteCard key={note._id} note={note} />
+          <NoteCard
+            key={note._id}
+            note={note}
+            onDeleteNote={(id) => {
+              setNotes(notes.filter((n) => n._id !== id));
+            }}
+          />
         ))}
       </ul>
     </Container>
